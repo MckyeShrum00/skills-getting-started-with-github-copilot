@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const participantsList = activityCard.querySelector(".activity-participants");
         details.participants.forEach((participant) => {
           const listItem = document.createElement("li");
-          listItem.textContent = participant;
+          listItem.textContent = participant; // Display participant email
           participantsList.appendChild(listItem);
         });
 
