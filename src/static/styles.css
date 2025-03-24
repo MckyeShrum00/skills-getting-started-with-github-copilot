@@ -75,15 +75,20 @@ section h3 {
 }
 
 .activity-card ul {
-  list-style-type: disc;
-  margin: 10px 0 0 20px;
+  list-style-type: none; /* Remove default bullet points */
+  margin: 10px 0 0;
   padding: 0;
 }
 
 .activity-card ul li {
   margin-bottom: 5px;
   font-size: 14px;
-  color: #555;
+  color: #333; /* Darker color for better readability */
+  background-color: #e3f2fd; /* Light blue background for participant names */
+  padding: 5px 10px;
+  border-radius: 3px;
+  display: inline-block; /* Display names as inline-block for compact layout */
+  margin-right: 5px; /* Add spacing between names */
 }
 
 .form-group {
