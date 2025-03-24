@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          <p><strong>Participants:</strong></p>
+          <ul>
+            ${details.participants.map(participant => `<li>${participant}</li>`).join("")}
+          </ul>
         `;
 
         activitiesList.appendChild(activityCard);
@@ -38,6 +42,38 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
       console.error("Error fetching activities:", error);
+    }
+  }
+
+  // Fetch and display activities with participants
+  async function loadActivities() {
+    const activitiesList = document.getElementById("activities-list");
+    const activityTemplate = document.getElementById("activity-template").content;
+
+    try {
+      const response = await fetch("/activities");
+      const activities = await response.json();
+
+      activitiesList.innerHTML = ""; // Clear loading message
+
+      for (const [name, details] of Object.entries(activities)) {
+        const activityCard = activityTemplate.cloneNode(true);
+
+        activityCard.querySelector(".activity-name").textContent = name;
+        activityCard.querySelector(".activity-description").textContent = details.description;
+        activityCard.querySelector(".activity-schedule").textContent = details.schedule;
+
+        const participantsList = activityCard.querySelector(".activity-participants");
+        details.participants.forEach((participant) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = participant;
+          participantsList.appendChild(listItem);
+        });
+
+        activitiesList.appendChild(activityCard);
+      }
+    } catch (error) {
+      activitiesList.innerHTML = "<p>Error loading activities. Please try again later.</p>";
     }
   }
 
@@ -83,4 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize app
   fetchActivities();
+
+  // Call the function to load activities on page load
+  loadActivities();
 });
